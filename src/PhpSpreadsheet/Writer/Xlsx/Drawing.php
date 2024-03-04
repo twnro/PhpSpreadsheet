@@ -180,52 +180,35 @@ class Drawing extends WriterPart
     public function writeDrawing(XMLWriter $objWriter, BaseDrawing $drawing, int $relationId = -1, ?int $hlinkClickId = null): void
     {
         if ($relationId >= 0) {
-            $isTwoCellAnchor = $drawing->getCoordinates2() !== '';
-            if ($isTwoCellAnchor) {
-                // xdr:twoCellAnchor
-                $objWriter->startElement('xdr:twoCellAnchor');
-                if ($drawing->validEditAs()) {
-                    $objWriter->writeAttribute('editAs', $drawing->getEditAs());
-                }
-                // Image location
-                $aCoordinates = Coordinate::indexesFromString($drawing->getCoordinates());
-                $aCoordinates2 = Coordinate::indexesFromString($drawing->getCoordinates2());
+            // Use drawUsingMoveAndResizeWithCell
+            $drawUsingMoveAndResizeWithCell = (property_exists($drawing, 'drawUsingMoveAndResizeWithCell') && $drawing->drawUsingMoveAndResizeWithCell);
+            // xdr:oneCellAnchor
+            $objWriter->startElement($drawUsingMoveAndResizeWithCell ? 'xdr:twoCellAnchor' : 'xdr:oneCellAnchor');
+            // Image location
+            $aCoordinates = Coordinate::indexesFromString($drawing->getCoordinates());
 
-                // xdr:from
-                $objWriter->startElement('xdr:from');
-                $objWriter->writeElement('xdr:col', (string) ($aCoordinates[0] - 1));
-                $objWriter->writeElement('xdr:colOff', self::stringEmu($drawing->getOffsetX()));
-                $objWriter->writeElement('xdr:row', (string) ($aCoordinates[1] - 1));
-                $objWriter->writeElement('xdr:rowOff', self::stringEmu($drawing->getOffsetY()));
-                $objWriter->endElement();
+            // xdr:from
+            $objWriter->startElement('xdr:from');
+            $objWriter->writeElement('xdr:col', $aCoordinates[0] - 1);
+            $objWriter->writeElement('xdr:colOff', \PhpOffice\PhpSpreadsheet\Shared\Drawing::pixelsToEMU($drawing->getOffsetX()));
+            $objWriter->writeElement('xdr:row', $aCoordinates[1] - 1);
+            $objWriter->writeElement('xdr:rowOff', \PhpOffice\PhpSpreadsheet\Shared\Drawing::pixelsToEMU($drawing->getOffsetY()));
+            $objWriter->endElement();
+            // xdr:ext
+            $objWriter->startElement('xdr:ext');
+            $objWriter->writeAttribute('cx', \PhpOffice\PhpSpreadsheet\Shared\Drawing::pixelsToEMU($drawing->getWidth()));
+            $objWriter->writeAttribute('cy', \PhpOffice\PhpSpreadsheet\Shared\Drawing::pixelsToEMU($drawing->getHeight()));
+            $objWriter->endElement();
 
-                // xdr:to
+            // drawUsingMoveAndResizeWithCell
+            if ($drawUsingMoveAndResizeWithCell) {
                 $objWriter->startElement('xdr:to');
-                $objWriter->writeElement('xdr:col', (string) ($aCoordinates2[0] - 1));
-                $objWriter->writeElement('xdr:colOff', self::stringEmu($drawing->getOffsetX2()));
-                $objWriter->writeElement('xdr:row', (string) ($aCoordinates2[1] - 1));
-                $objWriter->writeElement('xdr:rowOff', self::stringEmu($drawing->getOffsetY2()));
+                $objWriter->writeElement('xdr:col', $aCoordinates[0] - 1);
+                $objWriter->writeElement('xdr:colOff', \PhpOffice\PhpSpreadsheet\Shared\Drawing::pixelsToEMU($drawing->getWidth()));
+                $objWriter->writeElement('xdr:row', $aCoordinates[1] - 1);
+                $objWriter->writeElement('xdr:rowOff', \PhpOffice\PhpSpreadsheet\Shared\Drawing::pixelsToEMU($drawing->getHeight()));
                 $objWriter->endElement();
-            } else {
-                // xdr:oneCellAnchor
-                $objWriter->startElement('xdr:oneCellAnchor');
-                // Image location
-                $aCoordinates = Coordinate::indexesFromString($drawing->getCoordinates());
-
-                // xdr:from
-                $objWriter->startElement('xdr:from');
-                $objWriter->writeElement('xdr:col', (string) ($aCoordinates[0] - 1));
-                $objWriter->writeElement('xdr:colOff', self::stringEmu($drawing->getOffsetX()));
-                $objWriter->writeElement('xdr:row', (string) ($aCoordinates[1] - 1));
-                $objWriter->writeElement('xdr:rowOff', self::stringEmu($drawing->getOffsetY()));
-                $objWriter->endElement();
-
-                // xdr:ext
-                $objWriter->startElement('xdr:ext');
-                $objWriter->writeAttribute('cx', self::stringEmu($drawing->getWidth()));
-                $objWriter->writeAttribute('cy', self::stringEmu($drawing->getHeight()));
-                $objWriter->endElement();
-            }
+            };
 
             // xdr:pic
             $objWriter->startElement('xdr:pic');
@@ -291,12 +274,6 @@ class Drawing extends WriterPart
             $objWriter->writeAttribute('rot', (string) SharedDrawing::degreesToAngle($drawing->getRotation()));
             self::writeAttributeIf($objWriter, $drawing->getFlipVertical(), 'flipV', '1');
             self::writeAttributeIf($objWriter, $drawing->getFlipHorizontal(), 'flipH', '1');
-            if ($isTwoCellAnchor) {
-                $objWriter->startElement('a:ext');
-                $objWriter->writeAttribute('cx', self::stringEmu($drawing->getWidth()));
-                $objWriter->writeAttribute('cy', self::stringEmu($drawing->getHeight()));
-                $objWriter->endElement();
-            }
             $objWriter->endElement();
 
             // a:prstGeom
