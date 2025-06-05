@@ -46,6 +46,8 @@ class MemoryDrawing extends BaseDrawing
      */
     private string $uniqueName;
 
+    public $drawUsingMoveAndResizeWithCell;
+
     /**
      * Create a new MemoryDrawing.
      */
