@@ -28,9 +28,7 @@ class StringValueBinderTest extends TestCase
         Cell::setValueBinder($this->valueBinder);
     }
 
-    /**
-     * @dataProvider providerDataValuesDefault
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerDataValuesDefault')]
     public function testStringValueBinderDefaultBehaviour(
         mixed $value,
         mixed $expectedValue,
@@ -98,9 +96,7 @@ class StringValueBinderTest extends TestCase
         $spreadsheet->disconnectWorksheets();
     }
 
-    /**
-     * @dataProvider providerDataValuesSuppressNullConversion
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerDataValuesSuppressNullConversion')]
     public function testStringValueBinderSuppressNullConversion(
         mixed $value,
         mixed $expectedValue,
@@ -127,9 +123,7 @@ class StringValueBinderTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider providerDataValuesSuppressBooleanConversion
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerDataValuesSuppressBooleanConversion')]
     public function testStringValueBinderSuppressBooleanConversion(
         mixed $value,
         mixed $expectedValue,
@@ -157,9 +151,7 @@ class StringValueBinderTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider providerDataValuesSuppressNumericConversion
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerDataValuesSuppressNumericConversion')]
     public function testStringValueBinderSuppressNumericConversion(
         mixed $value,
         mixed $expectedValue,
@@ -194,9 +186,7 @@ class StringValueBinderTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider providerDataValuesSuppressFormulaConversion
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerDataValuesSuppressFormulaConversion')]
     public function testStringValueBinderSuppressFormulaConversion(
         mixed $value,
         mixed $expectedValue,
@@ -211,19 +201,23 @@ class StringValueBinderTest extends TestCase
         $cell->setValue($value);
         self::assertSame($expectedValue, $cell->getValue());
         self::assertSame($expectedDataType, $cell->getDataType());
+        if ($expectedDataType === DataType::TYPE_FORMULA) {
+            self::assertFalse($sheet->getStyle('A1')->getQuotePrefix());
+        } else {
+            self::assertTrue($sheet->getStyle('A1')->getQuotePrefix());
+        }
         $spreadsheet->disconnectWorksheets();
     }
 
     public static function providerDataValuesSuppressFormulaConversion(): array
     {
         return [
-            ['=SUM(A1:C3)', '=SUM(A1:C3)', DataType::TYPE_FORMULA, false],
+            'normal formula' => ['=SUM(A1:C3)', '=SUM(A1:C3)', DataType::TYPE_FORMULA],
+            'issue 1310' => ['======', '======', DataType::TYPE_STRING],
         ];
     }
 
-    /**
-     * @dataProvider providerDataValuesSuppressAllConversion
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerDataValuesSuppressAllConversion')]
     public function testStringValueBinderSuppressAllConversion(
         mixed $value,
         mixed $expectedValue,
@@ -256,7 +250,7 @@ class StringValueBinderTest extends TestCase
             ['-.123', '-.123', DataType::TYPE_STRING],
             ['1.23e-4', '1.23e-4', DataType::TYPE_STRING],
             ['ABC', 'ABC', DataType::TYPE_STRING],
-            ['=SUM(A1:C3)', '=SUM(A1:C3)', DataType::TYPE_FORMULA, false],
+            ['=SUM(A1:C3)', '=SUM(A1:C3)', DataType::TYPE_FORMULA],
             [123, 123, DataType::TYPE_NUMERIC],
             [123.456, 123.456, DataType::TYPE_NUMERIC],
             [0.123, 0.123, DataType::TYPE_NUMERIC],

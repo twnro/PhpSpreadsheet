@@ -11,12 +11,14 @@ use PhpOffice\PhpSpreadsheet\Reader\Xlsx as ReaderXlsx;
 use PhpOffice\PhpSpreadsheet\Reader\Xml as ReaderXml;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx as WriterXlsx;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class TypeAttributePreservationTest extends AbstractFunctional
 {
     public static function providerFormulae(): array
     {
         $formats = ['Xlsx'];
+        /** @var mixed[] */
         $data = require 'tests/data/Functional/TypeAttributePreservation/Formula.php';
 
         $result = [];
@@ -32,8 +34,9 @@ class TypeAttributePreservationTest extends AbstractFunctional
     /**
      * Ensure saved spreadsheets maintain the correct data type.
      *
-     * @dataProvider providerFormulae
+     * @param mixed[] $values
      */
+    #[DataProvider('providerFormulae')]
     public function testFormulae(string $format, array $values): void
     {
         $spreadsheet = new Spreadsheet();
@@ -64,8 +67,9 @@ class TypeAttributePreservationTest extends AbstractFunctional
     /**
      * Ensure saved spreadsheets maintain the correct data type.
      *
-     * @dataProvider providerFormulae
+     * @param mixed[] $values
      */
+    #[DataProvider('providerFormulae')]
     public function testFormulaeNoPrecalc(string $format, array $values): void
     {
         $spreadsheet = new Spreadsheet();

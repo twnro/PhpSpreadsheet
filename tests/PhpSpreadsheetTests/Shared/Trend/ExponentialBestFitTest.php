@@ -10,11 +10,13 @@ use PHPUnit\Framework\TestCase;
 class ExponentialBestFitTest extends TestCase
 {
     /**
-     * @dataProvider providerExponentialBestFit
-     *
+     * @param array<mixed> $expectedSlope
+     * @param array<mixed> $expectedIntersect
+     * @param array<mixed> $expectedGoodnessOfFit
      * @param array<float> $yValues
      * @param array<float> $xValues
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerExponentialBestFit')]
     public function testExponentialBestFit(
         array $expectedSlope,
         array $expectedIntersect,

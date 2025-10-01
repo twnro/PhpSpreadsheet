@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 setlocale(LC_ALL, 'en_US.utf8');
+ini_set('error_reporting', (string) E_ALL);
 
 function phpunit10ErrorHandler(int $errno, string $errstr, string $filename, int $lineno): bool
 {
@@ -32,6 +33,5 @@ function phpunit10ErrorHandler(int $errno, string $errstr, string $filename, int
 }
 
 if (!method_exists(PHPUnit\Framework\TestCase::class, 'setOutputCallback')) {
-    ini_set('error_reporting', (string) E_ALL);
     set_error_handler('phpunit10ErrorHandler');
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PhpOffice\PhpSpreadsheetTests\Reader\Xls;
 
+use PhpOffice\PhpSpreadsheet\Exception as PhpSpreadsheetException;
 use PhpOffice\PhpSpreadsheet\Reader\Xls;
 use PhpOffice\PhpSpreadsheet\Shared\CodePage;
 use PHPUnit\Framework\TestCase;
@@ -31,6 +32,7 @@ class InfoNamesTest extends TestCase
                 'lastColumnIndex' => 4,
                 'totalRows' => 19,
                 'totalColumns' => 5,
+                'sheetState' => 'visible',
             ],
             [
                 'worksheetName' => 'Terms and conditions',
@@ -38,6 +40,7 @@ class InfoNamesTest extends TestCase
                 'lastColumnIndex' => 1,
                 'totalRows' => 3,
                 'totalColumns' => 2,
+                'sheetState' => 'visible',
             ],
         ];
         self::assertSame($expected, $info);
@@ -66,6 +69,7 @@ class InfoNamesTest extends TestCase
                 'lastColumnIndex' => 1,
                 'totalRows' => 1,
                 'totalColumns' => 2,
+                'sheetState' => 'visible',
             ],
         ];
         self::assertSame($expected, $info);
@@ -106,11 +110,31 @@ class InfoNamesTest extends TestCase
                 'lastColumnIndex' => 15,
                 'totalRows' => 3,
                 'totalColumns' => 16,
+                'sheetState' => 'visible',
             ],
         ];
         self::assertSame($expected, $info);
         self::assertSame(Xls::XLS_BIFF7, $reader->getVersion());
         self::assertContains($reader->getCodepage(), self::MAC_CE);
+    }
+
+    public function testWorksheetNamesBiff5Special(): void
+    {
+        // Sadly, no unit test was added for PR #1484,
+        // so we have to invent a fake one now.
+        $reader = new XlsSpecialCodePage();
+        $reader->setCodePage('CP855'); // use Cyrillic rather than MACCENTRAL
+        $names = $reader->listWorksheetNames(self::MAC_FILE5);
+        $expected = ['ђrkusz1']; // first character interpreted as Cyrillic
+        self::assertSame($expected, $names);
+    }
+
+    public function testBadCodePage(): void
+    {
+        $this->expectException(PhpSpreadsheetException::class);
+        $this->expectExceptionMessage('Unknown codepage');
+        $reader = new Xls();
+        $reader->setCodePage('XXXCP855');
     }
 
     public function testLoadMacCentralEuropeBiff5(): void

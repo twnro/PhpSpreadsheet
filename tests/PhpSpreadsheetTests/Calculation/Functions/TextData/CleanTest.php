@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace PhpOffice\PhpSpreadsheetTests\Calculation\Functions\TextData;
 
 use PhpOffice\PhpSpreadsheet\Calculation\Calculation;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class CleanTest extends AllSetupTeardown
 {
-    /**
-     * @dataProvider providerCLEAN
-     */
+    #[DataProvider('providerCLEAN')]
     public function testCLEAN(mixed $expectedResult, mixed $value = 'omitted'): void
     {
         $this->mightHaveException($expectedResult);
@@ -30,9 +29,8 @@ class CleanTest extends AllSetupTeardown
         return require 'tests/data/Calculation/TextData/CLEAN.php';
     }
 
-    /**
-     * @dataProvider providerCleanArray
-     */
+    /** @param mixed[] $expectedResult */
+    #[DataProvider('providerCleanArray')]
     public function testCleanArray(array $expectedResult, string $array): void
     {
         $calculation = Calculation::getInstance();

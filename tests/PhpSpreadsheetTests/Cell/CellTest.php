@@ -15,20 +15,25 @@ use PhpOffice\PhpSpreadsheet\Style\Color;
 use PhpOffice\PhpSpreadsheet\Style\ConditionalFormatting\Wizard;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\Style;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class CellTest extends TestCase
 {
+    private ?Spreadsheet $spreadsheet = null;
+
     protected function setUp(): void
     {
-        parent::setUp();
         Cell::setValueBinder(new DefaultValueBinder());
     }
 
     protected function tearDown(): void
     {
-        parent::tearDown();
         Cell::setValueBinder(new DefaultValueBinder());
+        if ($this->spreadsheet !== null) {
+            $this->spreadsheet->disconnectWorksheets();
+            $this->spreadsheet = null;
+        }
     }
 
     public function testSetValueBinderOverride(): void
@@ -72,9 +77,7 @@ class CellTest extends TestCase
         $spreadsheet->disconnectWorksheets();
     }
 
-    /**
-     * @dataProvider providerSetValueExplicit
-     */
+    #[DataProvider('providerSetValueExplicit')]
     public function testSetValueExplicit(mixed $expected, mixed $value, string $dataType): void
     {
         $spreadsheet = new Spreadsheet();
@@ -92,26 +95,22 @@ class CellTest extends TestCase
 
     public function testInvalidIsoDateSetValueExplicit(): void
     {
-        $spreadsheet = new Spreadsheet();
-        $cell = $spreadsheet->getActiveSheet()->getCell('A1');
+        $this->spreadsheet = new Spreadsheet();
+        $cell = $this->spreadsheet->getActiveSheet()->getCell('A1');
 
         $dateValue = '2022-02-29'; // Invalid leap year
         $this->expectException(Exception::class);
         $this->expectExceptionMessage("Invalid string {$dateValue} supplied for datatype Date");
         $cell->setValueExplicit($dateValue, DataType::TYPE_ISO_DATE);
-
-        $spreadsheet->disconnectWorksheets();
     }
 
-    /**
-     * @dataProvider providerSetValueExplicitException
-     */
+    #[DataProvider('providerSetValueExplicitException')]
     public function testSetValueExplicitException(mixed $value, string $dataType): void
     {
         $this->expectException(Exception::class);
 
-        $spreadsheet = new Spreadsheet();
-        $cell = $spreadsheet->getActiveSheet()->getCell('A1');
+        $this->spreadsheet = new Spreadsheet();
+        $cell = $this->spreadsheet->getActiveSheet()->getCell('A1');
         $cell->setValueExplicit($value, $dataType);
     }
 
@@ -166,8 +165,8 @@ class CellTest extends TestCase
 
     public function testDestroyCell2(): void
     {
-        $spreadsheet = new Spreadsheet();
-        $sheet = $spreadsheet->getActiveSheet();
+        $this->spreadsheet = new Spreadsheet();
+        $sheet = $this->spreadsheet->getActiveSheet();
         $cell = $sheet->getCell('A1');
         self::assertSame('A1', $cell->getCoordinate());
         $this->expectException(Exception::class);
@@ -195,15 +194,15 @@ class CellTest extends TestCase
         $yellowStyle = new Style(false, true);
         $yellowStyle->getFill()
             ->setFillType(Fill::FILL_SOLID)
-            ->getEndColor()->setARGB(Color::COLOR_YELLOW);
+            ->getStartColor()->setARGB(Color::COLOR_YELLOW);
         $greenStyle = new Style(false, true);
         $greenStyle->getFill()
             ->setFillType(Fill::FILL_SOLID)
-            ->getEndColor()->setARGB(Color::COLOR_GREEN);
+            ->getStartColor()->setARGB(Color::COLOR_GREEN);
         $redStyle = new Style(false, true);
         $redStyle->getFill()
             ->setFillType(Fill::FILL_SOLID)
-            ->getEndColor()->setARGB(Color::COLOR_RED);
+            ->getStartColor()->setARGB(Color::COLOR_RED);
 
         $conditionalStyles = [];
         $wizardFactory = new Wizard($cellRange);
@@ -228,28 +227,27 @@ class CellTest extends TestCase
         $style = $sheet->getCell('A1')->getAppliedStyle();
         self::assertTrue($style->getFont()->getBold());
         self::assertEquals($redStyle->getFill()->getFillType(), $style->getFill()->getFillType());
-        self::assertEquals($redStyle->getFill()->getEndColor()->getARGB(), $style->getFill()->getEndColor()->getARGB());
+        self::assertEquals($redStyle->getFill()->getStartColor()->getARGB(), $style->getFill()->getStartColor()->getARGB());
 
         $style = $sheet->getCell('A2')->getAppliedStyle();
         self::assertTrue($style->getFont()->getBold());
         self::assertEquals($yellowStyle->getFill()->getFillType(), $style->getFill()->getFillType());
         self::assertEquals(
-            $yellowStyle->getFill()->getEndColor()->getARGB(),
-            $style->getFill()->getEndColor()->getARGB()
+            $yellowStyle->getFill()->getStartColor()->getARGB(),
+            $style->getFill()->getStartColor()->getARGB()
         );
 
         $style = $sheet->getCell('A3')->getAppliedStyle();
         self::assertTrue($style->getFont()->getBold());
         self::assertEquals($greenStyle->getFill()->getFillType(), $style->getFill()->getFillType());
         self::assertEquals(
-            $greenStyle->getFill()->getEndColor()->getARGB(),
-            $style->getFill()->getEndColor()->getARGB()
+            $greenStyle->getFill()->getStartColor()->getARGB(),
+            $style->getFill()->getStartColor()->getARGB()
         );
+        $spreadsheet->disconnectWorksheets();
     }
 
-    /**
-     * @dataProvider appliedStyling
-     */
+    #[DataProvider('appliedStylingProvider')]
     public function testAppliedStyleSingleCell(string $cellAddress, string $fillStyle, ?string $fillColor): void
     {
         $spreadsheet = new Spreadsheet();
@@ -266,11 +264,11 @@ class CellTest extends TestCase
         $yellowStyle = new Style(false, true);
         $yellowStyle->getFill()
             ->setFillType(Fill::FILL_SOLID)
-            ->getEndColor()->setARGB(Color::COLOR_YELLOW);
+            ->getStartColor()->setARGB(Color::COLOR_YELLOW);
         $redStyle = new Style(false, true);
         $redStyle->getFill()
             ->setFillType(Fill::FILL_SOLID)
-            ->getEndColor()->setARGB(Color::COLOR_RED);
+            ->getStartColor()->setARGB(Color::COLOR_RED);
 
         $conditionalCellRange = 'A1:C1';
         $conditionalStyles = [];
@@ -294,11 +292,12 @@ class CellTest extends TestCase
         self::assertTrue($style->getFont()->getBold());
         self::assertEquals($fillStyle, $style->getFill()->getFillType());
         if ($fillStyle === Fill::FILL_SOLID) {
-            self::assertEquals($fillColor, $style->getFill()->getEndColor()->getARGB());
+            self::assertEquals($fillColor, $style->getFill()->getStartColor()->getARGB());
         }
+        $spreadsheet->disconnectWorksheets();
     }
 
-    public static function appliedStyling(): array
+    public static function appliedStylingProvider(): array
     {
         return [
             'A1 - Conditional with Match' => ['A1', Fill::FILL_SOLID, Color::COLOR_RED],

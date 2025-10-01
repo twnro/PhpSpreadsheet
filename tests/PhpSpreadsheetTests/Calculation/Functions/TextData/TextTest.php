@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace PhpOffice\PhpSpreadsheetTests\Calculation\Functions\TextData;
 
 use PhpOffice\PhpSpreadsheet\Calculation\Calculation;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class TextTest extends AllSetupTeardown
 {
-    /**
-     * @dataProvider providerTEXT
-     */
+    #[DataProvider('providerTEXT')]
     public function testTEXT(mixed $expectedResult, mixed $value = 'omitted', mixed $format = 'omitted'): void
     {
         $this->mightHaveException($expectedResult);
@@ -34,9 +33,8 @@ class TextTest extends AllSetupTeardown
         return require 'tests/data/Calculation/TextData/TEXT.php';
     }
 
-    /**
-     * @dataProvider providerTextArray
-     */
+    /** @param mixed[] $expectedResult */
+    #[DataProvider('providerTextArray')]
     public function testTextArray(array $expectedResult, string $argument1, string $argument2): void
     {
         $calculation = Calculation::getInstance();

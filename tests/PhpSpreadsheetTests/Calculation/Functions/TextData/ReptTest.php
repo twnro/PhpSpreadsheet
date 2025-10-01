@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace PhpOffice\PhpSpreadsheetTests\Calculation\Functions\TextData;
 
 use PhpOffice\PhpSpreadsheet\Calculation\Calculation;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class ReptTest extends AllSetupTeardown
 {
-    /**
-     * @dataProvider providerREPT
-     */
+    #[DataProvider('providerREPT')]
     public function testReptThroughEngine(mixed $expectedResult, mixed $val = 'omitted', mixed $rpt = 'omitted'): void
     {
         $this->mightHaveException($expectedResult);
@@ -34,9 +33,8 @@ class ReptTest extends AllSetupTeardown
         return require 'tests/data/Calculation/TextData/REPT.php';
     }
 
-    /**
-     * @dataProvider providerReptArray
-     */
+    /** @param mixed[] $expectedResult */
+    #[DataProvider('providerReptArray')]
     public function testReptArray(array $expectedResult, string $argument1, string $argument2): void
     {
         $calculation = Calculation::getInstance();

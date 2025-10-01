@@ -240,12 +240,18 @@ Excel Function           | PhpSpreadsheet Function
 ADDRESS                  | \PhpOffice\PhpSpreadsheet\Calculation\LookupRef\Address::cell
 AREAS                    | **Not yet Implemented**
 CHOOSE                   | \PhpOffice\PhpSpreadsheet\Calculation\LookupRef\Selection::CHOOSE
+CHOOSECOLS               | \PhpOffice\PhpSpreadsheet\Calculation\LookupRef\ChooseRowsEtc::chooseCols
+CHOOSEROWS               | \PhpOffice\PhpSpreadsheet\Calculation\LookupRef\ChooseRowsEtc::chooseRows
 COLUMN                   | \PhpOffice\PhpSpreadsheet\Calculation\LookupRef\RowColumnInformation::COLUMN
 COLUMNS                  | \PhpOffice\PhpSpreadsheet\Calculation\LookupRef\RowColumnInformation::COLUMNS
+DROP                     | \PhpOffice\PhpSpreadsheet\Calculation\LookupRef\ChooseRowsEtc::drop
+EXPAND                   | \PhpOffice\PhpSpreadsheet\Calculation\LookupRef\ChooseRowsEtc::expand
 FILTER                   | \PhpOffice\PhpSpreadsheet\Calculation\LookupRef\Filter::filter
 FORMULATEXT              | \PhpOffice\PhpSpreadsheet\Calculation\LookupRef\Formula::text
 GETPIVOTDATA             | **Not yet Implemented**
+GROUPBY                  | **Not yet Implemented**
 HLOOKUP                  | \PhpOffice\PhpSpreadsheet\Calculation\LookupRef\HLookup::lookup
+HSTACK                   | \PhpOffice\PhpSpreadsheet\Calculation\LookupRef\Hstack::hstack
 HYPERLINK                | \PhpOffice\PhpSpreadsheet\Calculation\LookupRef\Hyperlink::set
 INDEX                    | \PhpOffice\PhpSpreadsheet\Calculation\LookupRef\Matrix::index
 INDIRECT                 | \PhpOffice\PhpSpreadsheet\Calculation\LookupRef\Indirect::INDIRECT
@@ -257,9 +263,13 @@ ROWS                     | \PhpOffice\PhpSpreadsheet\Calculation\LookupRef\RowCo
 RTD                      | **Not yet Implemented**
 SORT                     | \PhpOffice\PhpSpreadsheet\Calculation\LookupRef\Sort::sort
 SORTBY                   | \PhpOffice\PhpSpreadsheet\Calculation\LookupRef\Sort::sortBy
+TAKE                     | \PhpOffice\PhpSpreadsheet\Calculation\LookupRef\ChooseRowsEtc::take
+TOCOL                    | \PhpOffice\PhpSpreadsheet\Calculation\LookupRef\TorowTocol::tocol
+TOROW                    | \PhpOffice\PhpSpreadsheet\Calculation\LookupRef\TorowTocol::torow
 TRANSPOSE                | \PhpOffice\PhpSpreadsheet\Calculation\LookupRef\Matrix::transpose
 UNIQUE                   | \PhpOffice\PhpSpreadsheet\Calculation\LookupRef\Unique::unique
 VLOOKUP                  | \PhpOffice\PhpSpreadsheet\Calculation\LookupRef\VLookup::lookup
+VSTACK                   | \PhpOffice\PhpSpreadsheet\Calculation\LookupRef\Vstack::vstack
 XLOOKUP                  | **Not yet Implemented**
 XMATCH                   | **Not yet Implemented**
 
@@ -283,8 +293,6 @@ BASE                     | \PhpOffice\PhpSpreadsheet\Calculation\MathTrig\Base::
 CEILING                  | \PhpOffice\PhpSpreadsheet\Calculation\MathTrig\Ceiling::ceiling
 CEILING.MATH             | \PhpOffice\PhpSpreadsheet\Calculation\MathTrig\Ceiling::math
 CEILING.PRECISE          | \PhpOffice\PhpSpreadsheet\Calculation\MathTrig\Ceiling::precise
-CHOOSECOLS               | **Not yet Implemented**
-CHOOSEROWS               | **Not yet Implemented**
 COMBIN                   | \PhpOffice\PhpSpreadsheet\Calculation\MathTrig\Combinations::withoutRepetition
 COMBINA                  | \PhpOffice\PhpSpreadsheet\Calculation\MathTrig\Combinations::withRepetition
 COS                      | \PhpOffice\PhpSpreadsheet\Calculation\MathTrig\Trig\Cosine::cos
@@ -295,18 +303,15 @@ CSC                      | \PhpOffice\PhpSpreadsheet\Calculation\MathTrig\Trig\C
 CSCH                     | \PhpOffice\PhpSpreadsheet\Calculation\MathTrig\Trig\Cosecant::csch
 DECIMAL                  | **Not yet Implemented**
 DEGREES                  | \PhpOffice\PhpSpreadsheet\Calculation\MathTrig\Angle::toDegrees
-DROP                     | **Not yet Implemented**
 ECMA.CEILING             | **Not yet Implemented**
 EVEN                     | \PhpOffice\PhpSpreadsheet\Calculation\MathTrig\Round::even
 EXP                      | \PhpOffice\PhpSpreadsheet\Calculation\MathTrig\Exp::evaluate
-EXPAND                   | **Not yet Implemented**
 FACT                     | \PhpOffice\PhpSpreadsheet\Calculation\MathTrig\Factorial::fact
 FACTDOUBLE               | \PhpOffice\PhpSpreadsheet\Calculation\MathTrig\Factorial::factDouble
 FLOOR                    | \PhpOffice\PhpSpreadsheet\Calculation\MathTrig\Floor::floor
 FLOOR.MATH               | \PhpOffice\PhpSpreadsheet\Calculation\MathTrig\Floor::math
 FLOOR.PRECISE            | \PhpOffice\PhpSpreadsheet\Calculation\MathTrig\Floor::precise
 GCD                      | \PhpOffice\PhpSpreadsheet\Calculation\MathTrig\Gcd::evaluate
-HSTACK                   | **Not yet Implemented**
 INT                      | \PhpOffice\PhpSpreadsheet\Calculation\MathTrig\IntClass::evaluate
 ISO.CEILING              | **Not yet Implemented**
 LCM                      | \PhpOffice\PhpSpreadsheet\Calculation\MathTrig\Lcm::evaluate
@@ -353,13 +358,9 @@ SUMSQ                    | \PhpOffice\PhpSpreadsheet\Calculation\MathTrig\SumSqu
 SUMX2MY2                 | \PhpOffice\PhpSpreadsheet\Calculation\MathTrig\SumSquares::sumXSquaredMinusYSquared
 SUMX2PY2                 | \PhpOffice\PhpSpreadsheet\Calculation\MathTrig\SumSquares::sumXSquaredPlusYSquared
 SUMXMY2                  | \PhpOffice\PhpSpreadsheet\Calculation\MathTrig\SumSquares::sumXMinusYSquared
-TAKE                     | **Not yet Implemented**
 TAN                      | \PhpOffice\PhpSpreadsheet\Calculation\MathTrig\Trig\Tangent::tan
 TANH                     | \PhpOffice\PhpSpreadsheet\Calculation\MathTrig\Trig\Tangent::tanh
-TOCOL                    | **Not yet Implemented**
-TOROW                    | **Not yet Implemented**
 TRUNC                    | \PhpOffice\PhpSpreadsheet\Calculation\MathTrig\Trunc::evaluate
-VSTACK                   | **Not yet Implemented**
 WRAPCOLS                 | **Not yet Implemented**
 WRAPROWS                 | **Not yet Implemented**
 
@@ -529,7 +530,7 @@ CHAR                     | \PhpOffice\PhpSpreadsheet\Calculation\TextData\Charac
 CLEAN                    | \PhpOffice\PhpSpreadsheet\Calculation\TextData\Trim::nonPrintable
 CODE                     | \PhpOffice\PhpSpreadsheet\Calculation\TextData\CharacterConvert::code
 CONCAT                   | \PhpOffice\PhpSpreadsheet\Calculation\TextData\Concatenate::CONCATENATE
-CONCATENATE              | \PhpOffice\PhpSpreadsheet\Calculation\TextData\Concatenate::CONCATENATE
+CONCATENATE              | \PhpOffice\PhpSpreadsheet\Calculation\TextData\Concatenate::actualCONCATENATE
 DBCS                     | **Not yet Implemented**
 DOLLAR                   | \PhpOffice\PhpSpreadsheet\Calculation\TextData\Format::DOLLAR
 EXACT                    | \PhpOffice\PhpSpreadsheet\Calculation\TextData\Text::exact
@@ -586,5 +587,10 @@ WEBSERVICE               | \PhpOffice\PhpSpreadsheet\Calculation\Web\Service::we
 
 Excel Function           | PhpSpreadsheet Function
 -------------------------|--------------------------------------
-ANCHORARRAY              | **Not yet Implemented**
-SINGLE                   | **Not yet Implemented**
+
+## CATEGORY_MICROSOFT_INTERNAL
+
+Excel Function           | PhpSpreadsheet Function
+-------------------------|--------------------------------------
+ANCHORARRAY              | \PhpOffice\PhpSpreadsheet\Calculation\Internal\ExcelArrayPseudoFunctions::anchorArray
+SINGLE                   | \PhpOffice\PhpSpreadsheet\Calculation\Internal\ExcelArrayPseudoFunctions::single

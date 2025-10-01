@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace PhpOffice\PhpSpreadsheetTests\Calculation\Functions\TextData;
 
 use PhpOffice\PhpSpreadsheet\Calculation\Calculation;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class SearchTest extends AllSetupTeardown
 {
-    /**
-     * @dataProvider providerSEARCH
-     */
+    #[DataProvider('providerSEARCH')]
     public function testSEARCH(mixed $expectedResult, mixed $findText = 'omitted', mixed $withinText = 'omitted', mixed $start = 'omitted'): void
     {
         $this->mightHaveException($expectedResult);
@@ -39,9 +38,8 @@ class SearchTest extends AllSetupTeardown
         return require 'tests/data/Calculation/TextData/SEARCH.php';
     }
 
-    /**
-     * @dataProvider providerSearchArray
-     */
+    /** @param mixed[] $expectedResult */
+    #[DataProvider('providerSearchArray')]
     public function testSearchArray(array $expectedResult, string $argument1, string $argument2): void
     {
         $calculation = Calculation::getInstance();

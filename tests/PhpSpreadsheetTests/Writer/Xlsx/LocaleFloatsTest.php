@@ -17,10 +17,8 @@ class LocaleFloatsTest extends AbstractFunctional
 
     private string $originalLocale;
 
-    /** @var ?Spreadsheet */
     private ?Spreadsheet $spreadsheet = null;
 
-    /** @var ?Spreadsheet */
     private ?Spreadsheet $reloadedSpreadsheet = null;
 
     protected function setUp(): void
@@ -51,9 +49,8 @@ class LocaleFloatsTest extends AbstractFunctional
 
     /**
      * Use separate process because this calls native Php setlocale.
-     *
-     * @runInSeparateProcess
      */
+    #[\PHPUnit\Framework\Attributes\RunInSeparateProcess]
     public function testLocaleFloatsCorrectlyConvertedByWriter(): void
     {
         if (!setlocale(LC_ALL, 'fr_FR.UTF-8', 'fra_fra.utf8')) {
@@ -62,6 +59,7 @@ class LocaleFloatsTest extends AbstractFunctional
         }
         $localeconv = localeconv();
         $decimalSeparator = $localeconv['decimal_point'];
+        self::assertIsString($decimalSeparator);
         self::assertNotEquals('.', $decimalSeparator, 'unexpected change to French decimal separator');
         $this->spreadsheet = $spreadsheet = new Spreadsheet();
         $properties = $spreadsheet->getProperties();
@@ -88,7 +86,6 @@ class LocaleFloatsTest extends AbstractFunctional
         $this->spreadsheet = $spreadsheet = $reader->load('tests/data/Writer/XLSX/issue.3811b.xlsx');
         $sheet = $spreadsheet->getActiveSheet();
         self::assertSame('48,34%', $sheet->getCell('L2')->getValue());
-        self::assertIsString($sheet->getCell('L2')->getValue());
         self::assertSame('=(10%+L2)/2', $sheet->getCell('L1')->getValue());
         self::assertEqualsWithDelta(0.2917, $sheet->getCell('L1')->getCalculatedValue(), 1E-8);
         self::assertIsFloat($sheet->getCell('L1')->getCalculatedValue());
@@ -107,9 +104,8 @@ class LocaleFloatsTest extends AbstractFunctional
 
     /**
      * Use separate process because this calls native Php setlocale.
-     *
-     * @runInSeparateProcess
      */
+    #[\PHPUnit\Framework\Attributes\RunInSeparateProcess]
     public function testPercentageStoredAsString2(): void
     {
         if (!setlocale(LC_ALL, 'fr_FR.UTF-8', 'fra_fra.utf8')) {
@@ -119,13 +115,14 @@ class LocaleFloatsTest extends AbstractFunctional
         $localeconv = localeconv();
         $thousandsSeparator = $localeconv['thousands_sep'];
         $decimalSeparator = $localeconv['decimal_point'];
+        self::assertIsString($decimalSeparator);
+        self::assertIsString($thousandsSeparator);
         self::assertNotEquals('.', $decimalSeparator, 'unexpected change to French decimal separator');
         self::assertNotEquals(',', $thousandsSeparator, 'unexpected change to French thousands separator');
         $reader = new XlsxReader();
         $this->spreadsheet = $spreadsheet = $reader->load('tests/data/Writer/XLSX/issue.3811b.xlsx');
         $sheet = $spreadsheet->getActiveSheet();
         self::assertSame('48,34%', $sheet->getCell('L2')->getValue());
-        self::assertIsString($sheet->getCell('L2')->getValue());
         self::assertSame('=(10%+L2)/2', $sheet->getCell('L1')->getValue());
         self::assertEqualsWithDelta(0.2917, $sheet->getCell('L1')->getCalculatedValue(), 1E-8);
         self::assertIsFloat($sheet->getCell('L1')->getCalculatedValue());

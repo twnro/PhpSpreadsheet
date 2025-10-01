@@ -8,22 +8,19 @@ use PhpOffice\PhpSpreadsheet\Calculation\Calculation;
 use PhpOffice\PhpSpreadsheet\Calculation\DateTimeExcel\DateParts;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheetTests\Calculation\Functions\FormulaArguments;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class YearTest extends TestCase
 {
-    /**
-     * @dataProvider providerYEAR
-     */
+    #[DataProvider('providerYEAR')]
     public function testDirectCallToYEAR(mixed $expectedResultExcel, mixed ...$args): void
     {
         $result = DateParts::year(...$args);
         self::assertSame($expectedResultExcel, $result);
     }
 
-    /**
-     * @dataProvider providerYEAR
-     */
+    #[DataProvider('providerYEAR')]
     public function testYEARAsFormula(mixed $expectedResult, mixed ...$args): void
     {
         $arguments = new FormulaArguments(...$args);
@@ -35,9 +32,7 @@ class YearTest extends TestCase
         self::assertSame($expectedResult, $result);
     }
 
-    /**
-     * @dataProvider providerYEAR
-     */
+    #[DataProvider('providerYEAR')]
     public function testYEARInWorksheet(mixed $expectedResult, mixed ...$args): void
     {
         $arguments = new FormulaArguments(...$args);
@@ -60,9 +55,7 @@ class YearTest extends TestCase
         return require 'tests/data/Calculation/DateTime/YEAR.php';
     }
 
-    /**
-     * @dataProvider providerUnhappyYEAR
-     */
+    #[DataProvider('providerUnhappyYEAR')]
     public function testYEARUnhappyPath(string $expectedException, mixed ...$args): void
     {
         $arguments = new FormulaArguments(...$args);
@@ -88,9 +81,8 @@ class YearTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider providerYearArray
-     */
+    /** @param mixed[] $expectedResult */
+    #[DataProvider('providerYearArray')]
     public function testYearArray(array $expectedResult, string $array): void
     {
         $calculation = Calculation::getInstance();

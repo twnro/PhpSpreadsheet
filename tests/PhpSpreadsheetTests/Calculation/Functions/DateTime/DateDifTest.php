@@ -12,22 +12,20 @@ use PhpOffice\PhpSpreadsheet\Calculation\DateTimeExcel\Difference;
 use PhpOffice\PhpSpreadsheet\Calculation\Exception as CalculationException;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheetTests\Calculation\Functions\FormulaArguments;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class DateDifTest extends TestCase
 {
-    /**
-     * @dataProvider providerDATEDIF
-     */
+    /** @param array<mixed>|int|string $expectedResult */
+    #[DataProvider('providerDATEDIF')]
     public function testDirectCallToDATEDIF(array|int|string $expectedResult, string ...$args): void
     {
         $result = Difference::interval(...$args);
         self::assertSame($expectedResult, $result);
     }
 
-    /**
-     * @dataProvider providerDATEDIF
-     */
+    #[DataProvider('providerDATEDIF')]
     public function testDATEDIFAsFormula(mixed $expectedResult, mixed ...$args): void
     {
         $arguments = new FormulaArguments(...$args);
@@ -39,9 +37,7 @@ class DateDifTest extends TestCase
         self::assertSame($expectedResult, $result);
     }
 
-    /**
-     * @dataProvider providerDATEDIF
-     */
+    #[DataProvider('providerDATEDIF')]
     public function testDATEDIFInWorksheet(mixed $expectedResult, mixed ...$args): void
     {
         $arguments = new FormulaArguments(...$args);
@@ -64,9 +60,7 @@ class DateDifTest extends TestCase
         return require 'tests/data/Calculation/DateTime/DATEDIF.php';
     }
 
-    /**
-     * @dataProvider providerUnhappyDATEDIF
-     */
+    #[DataProvider('providerUnhappyDATEDIF')]
     public function testDATEDIFUnhappyPath(string $expectedException, mixed ...$args): void
     {
         $arguments = new FormulaArguments(...$args);
@@ -99,9 +93,8 @@ class DateDifTest extends TestCase
         self::assertSame(31, Days::between($obj1, $obj2));
     }
 
-    /**
-     * @dataProvider providerDateDifArray
-     */
+    /** @param array<mixed> $expectedResult */
+    #[DataProvider('providerDateDifArray')]
     public function testDateDifArray(array $expectedResult, string $startDate, string $endDate, ?string $methods): void
     {
         $calculation = Calculation::getInstance();

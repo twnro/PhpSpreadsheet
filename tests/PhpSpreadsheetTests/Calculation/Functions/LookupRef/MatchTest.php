@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace PhpOffice\PhpSpreadsheetTests\Calculation\Functions\LookupRef;
 
 use PhpOffice\PhpSpreadsheet\Calculation\Calculation;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class MatchTest extends AllSetupTeardown
 {
-    /**
-     * @dataProvider providerMATCH
-     */
+    /** @param mixed[] $array */
+    #[DataProvider('providerMATCH')]
     public function testMATCH(mixed $expectedResult, mixed $input, array $array, null|float|int|string $type = null): void
     {
         if (is_array($expectedResult)) {
@@ -39,9 +39,8 @@ class MatchTest extends AllSetupTeardown
         self::assertEquals($expectedResult, $result);
     }
 
-    /**
-     * @dataProvider providerMATCH
-     */
+    /** @param mixed[] $array */
+    #[DataProvider('providerMATCH')]
     public function testMATCHLibre(mixed $expectedResult, mixed $input, array $array, null|float|int|string $type = null): void
     {
         $this->setOpenOffice();
@@ -76,9 +75,7 @@ class MatchTest extends AllSetupTeardown
         return require 'tests/data/Calculation/LookupRef/MATCH.php';
     }
 
-    /**
-     * @dataProvider providerMatchArray
-     */
+    #[DataProvider('providerMatchArray')]
     public function testMatchArray(array $expectedResult, string $values, string $selections): void
     {
         $calculation = Calculation::getInstance();

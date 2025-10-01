@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace PhpOffice\PhpSpreadsheetTests\Calculation\Functions\TextData;
 
 use PhpOffice\PhpSpreadsheet\Calculation\Calculation;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class TextJoinTest extends AllSetupTeardown
 {
-    /**
-     * @dataProvider providerTEXTJOIN
-     */
+    /** @param mixed[] $args */
+    #[DataProvider('providerTEXTJOIN')]
     public function testTEXTJOIN(mixed $expectedResult, array $args): void
     {
         $this->mightHaveException($expectedResult);
@@ -35,9 +35,8 @@ class TextJoinTest extends AllSetupTeardown
         return require 'tests/data/Calculation/TextData/TEXTJOIN.php';
     }
 
-    /**
-     * @dataProvider providerTextjoinArray
-     */
+    /** @param mixed[] $expectedResult */
+    #[DataProvider('providerTextjoinArray')]
     public function testTextjoinArray(array $expectedResult, string $delimiter, string $blanks, string $texts): void
     {
         $calculation = Calculation::getInstance();

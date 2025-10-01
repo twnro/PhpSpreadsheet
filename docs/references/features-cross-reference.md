@@ -28,11 +28,22 @@
         <td style="text-align: center; color: green;">✔</td>
         <td style="text-align: center; color: green;">✔</td>
         <td style="text-align: center; color: orange;">●</td>
-        <td style="text-align: center; color: orange;">●</td>
+        <td style="text-align: center; color: orange;">● <a href="#footnote6"><sup>6</sup></a></td>
         <td style="text-align: center; color: green;">✔</td>
         <td style="text-align: center;">N/A</td>
         <td style="text-align: center;">N/A</td>
         <td style="text-align: center; color: green;">✔</td>
+    </tr>
+    <tr>
+        <td style="padding-left: 1em;">Read Charts</td>
+        <td style="text-align: center; color: red;">✖</td>
+        <td style="text-align: center; color: green;">✔</td>
+        <td style="text-align: center; color: red;">✖</td>
+        <td style="text-align: center; color: red;">✖</td>
+        <td style="text-align: center; color: red;">✖</td>
+        <td style="text-align: center;">N/A</td>
+        <td style="text-align: center;">N/A</td>
+        <td style="text-align: center; color: red;">✖</td>
     </tr>
     <tr>
         <td style="padding-left: 1em;">Read Data Only (no formatting)</td>
@@ -66,6 +77,17 @@
         <td style="text-align: center; color: green;">✔</td>
         <td style="text-align: center; color: red;">✖</td>
         <td style="text-align: center; color: green;">✔</td>
+    </tr>
+    <tr>
+        <td style="padding-left: 1em;">Read External Images</td>
+        <td style="text-align: center; color: red;">✖</td>
+        <td style="text-align: center; color: green;">✔ <a href="#footnote9"><sup>9</sup></a></td>
+        <td style="text-align: center; color: red;">✖</td>
+        <td style="text-align: center; color: red;">✖</td>
+        <td style="text-align: center; color: red;">✖</td>
+        <td style="text-align: center;">N/A</td>
+        <td style="text-align: center;">N/A</td>
+        <td style="text-align: center; color: green;">✔ <a href="#footnote9"><sup>9</sup></a></td>
     </tr>
     <tr>
         <td style="padding-left: 0.5em;"><strong>Document Properties</strong></td>
@@ -365,15 +387,15 @@
         <td style="text-align: center; color: red;">✖</td>
     </tr>
     <tr>
-        <td style="padding-left: 1em;">Array</td>
+        <td style="padding-left: 1em;">Array Formula</td>
         <td style="text-align: center; color: red;">✖</td>
+        <td style="text-align: center; color: green;">✔</td>
+        <td style="text-align: center; color: green;">✔</td>
+        <td style="text-align: center; color: green;">✔</td>
+        <td style="text-align: center; color: green;">✔</td>
+        <td style="text-align: center;">N/A</td>
         <td style="text-align: center; color: red;">✖</td>
-        <td style="text-align: center; color: red;">✖</td>
-        <td style="text-align: center; color: red;">✖</td>
-        <td style="text-align: center; color: red;">✖</td>
-        <td style="text-align: center; color: red;">✖</td>
-        <td style="text-align: center; color: red;">✖</td>
-        <td style="text-align: center; color: red;">✖</td>
+        <td style="text-align: center;">N/A</td>
     </tr>
     <tr>
         <td style="padding-left: 1em;">Rich Text</td>
@@ -389,7 +411,7 @@
     </tr>
     <tr>
         <td style="padding-left: 0.5em;"><strong>Conditional Formatting</strong></td>
-        <td style="text-align: center; color: orange;">●</td>
+        <td style="text-align: center; color: green;">✔</td>
         <td style="text-align: center; color: green;">✔</td>
         <td style="text-align: center; color: red;">✖</td>
         <td style="text-align: center; color: red;">✖</td>
@@ -414,7 +436,7 @@
         <td style="text-align: center; color: green;">✔</td>
         <td style="text-align: center; color: green;">✔</td>
         <td style="text-align: center; color: green;">✔</td>
-        <td style="text-align: center; color: red;">✖</td>
+        <td style="text-align: center; color: green;">✔</td>
         <td style="text-align: center; color: green;">✔</td>
         <td style="text-align: center;">N/A</td>
         <td style="text-align: center;">N/A</td>
@@ -495,14 +517,14 @@
         <td style="text-align: center; color: green;">✔</td> 
         <td style="text-align: center;">N/A</td>
         <td style="text-align: center; color: orange;">●</td>
-        <td style="text-align: center; color: orange;">●</td>
+        <td style="text-align: center; color: orange;">● <a href="#footnote7"><sup>7</sup></a></td>
     </tr>
     <tr>
         <td style="padding-left: 1em;">Number Format Mask</td>
         <td style="text-align: center; color: green;">✔</td>
         <td style="text-align: center; color: green;">✔</td>
         <td style="text-align: center; color: green;">✔</td>
-        <td style="text-align: center; color: green;">✔</td>
+        <td style="text-align: center; color: orange;">●</td>
         <td style="text-align: center; color: green;">✔</td>
         <td style="text-align: center;">N/A</td>
         <td style="text-align: center; color: green;">✔</td>
@@ -517,7 +539,7 @@
         <td style="text-align: center; color: green;">✔</td>
         <td style="text-align: center;">N/A</td>
         <td style="text-align: center; color: red;">✖</td>
-        <td style="text-align: center; color: orange;">●</td>
+        <td style="text-align: center; color: orange;">● <a href="#footnote7"><sup>7</sup></a></td>
     </tr>
     <tr>
         <td style="padding-left: 2em;">Horizontal</td>
@@ -583,7 +605,7 @@
         <td style="text-align: center; color: green;">✔</td>
         <td style="text-align: center;">N/A</td>
         <td style="text-align: center; color: green;">✔</td>
-        <td style="text-align: center; color: green;">✔</td>
+        <td style="text-align: center; color: orange;">● <a href="#footnote7"><sup>7</sup></a></td>
     </tr>
     <tr>
         <td style="padding-left: 2em;">Patterned</td>
@@ -605,7 +627,7 @@
         <td style="text-align: center; color: green;">✔</td>
         <td style="text-align: center;">N/A</td>
         <td style="text-align: center; color: green;">✔</td>
-        <td style="text-align: center; color: green;">✔</td>
+        <td style="text-align: center; color: orange;">● <a href="#footnote7"><sup>7</sup></a></td>
     </tr>
     <tr>
         <td style="padding-left: 2em;">Font Face</td>
@@ -704,7 +726,7 @@
         <td style="text-align: center; color: green;">✔</td>
         <td style="text-align: center;">N/A</td>
         <td style="text-align: center; color: orange;">●</td>
-        <td style="text-align: center; color: green;">✔</td>
+        <td style="text-align: center; color: orange;">● <a href="#footnote7"><sup>7</sup></a></td>
     </tr>
     <tr>
         <td style="padding-left: 2em;">Line Style</td>
@@ -797,13 +819,13 @@
     <tr>
         <td style="padding-left: 2em;">Alignment</td>
         <td style="text-align: center; color: red;">✖ <a href="#footnote3"><sup>3</sup></a></td>
-        <td style="text-align: center; color: red;">✖</td>
+        <td style="text-align: center; color: green;">✔</td>
         <td style="text-align: center; color: red;">✖</td>
         <td style="text-align: center; color: red;">✖</td>
         <td style="text-align: center; color: red;">✖</td>
         <td style="text-align: center;">N/A</td>
         <td style="text-align: center; color: red;">✖</td>
-        <td style="text-align: center; color: red;">✖</td>
+        <td style="text-align: center; color: green;">✔</td>
     </tr>
     <tr>
         <td style="padding-left: 2em;">Background Image</td>
@@ -929,7 +951,7 @@
     <tr>
         <td style="padding-left: 0.5em;"><a href="#setGetMacro"><strong>Macros</strong></a></td>
         <td style="text-align: center; color: red;">✖</td>
-        <td style="text-align: center; color: green;">✔</td>
+        <td style="text-align: center; color: orange;">● <a href="#footnote5"><sup>5</sup</td>
         <td style="text-align: center; color: red;">✖</td>
         <td style="text-align: center; color: red;">✖</td>
         <td style="text-align: center; color: red;">✖</td>
@@ -940,7 +962,7 @@
     <tr>
         <td style="padding-left: 0.5em;"><strong>Form Controls</strong></td>
         <td style="text-align: center; color: red;">✖</td>
-        <td style="text-align: center; color: red;">✖</td>
+        <td style="text-align: center; color: orange;">● <a href="#footnote4"><sup>4</sup</td>
         <td style="text-align: center; color: red;">✖</td>
         <td style="text-align: center; color: red;">✖</td>
         <td style="text-align: center; color: red;">✖</td>
@@ -1001,6 +1023,12 @@
 1. <span id="footnote1">Only text contents</span>
 2. <span id="footnote2">Only BIFF8 files support Rich Text. Prior to that, comments could only be plain text</span>
 3. <span id="footnote3">Only BIFF8 files support alignment and rotation. Prior to that, comments could only be unformatted text</span>
+4. <span id="footnote4">Xlsx forms and controls can be read and written but not otherwise manipulated</span>
+5. <span id="footnote5">Xlsx macros can be read and written; their values can be retrieved and changed, but only in a binary form which is unlikely to be useful</span>
+6. <span id="footnote6">There is very limited support for reading styles from an Ods spreadsheet. Writing styles has better support, although Number Format is incomplete.</span>
+7. <span id="footnote7">In most cases, Html reader processes only inline styles; styles provided by Css classes may be ignored.</span>
+8. <span id="footnote8">Code must [opt in](../topics/recipes.md#array-formulas) to array output.</span>
+9. <span id="footnote9">Use with caution - allowing external images may can subject the caller to security exploits. Starting with release 4.5.0 (also earlier releases 3.9.3, 2.3.10, 2.1.11, and 1.29.12), code can allow or not external images. In those starting releases, and in earlier releases which do not offer an option, default is to allow it. In release 5+ (and earlier supported versions 1.30+, 2.1.12+, 2.4+, and 3.10+), the default is to not allow it.</span>
 
 ## Writers
 
@@ -1172,6 +1200,15 @@
         <td style="text-align: center; color: red;">✖</td>
     </tr>
     <tr>
+        <td style="padding-left: 0.5em;"><strong>Array Formula<a href="#footnote8"><sup>8</sup></a></strong></td>
+        <td style="text-align: center; color: red;">✖</td>
+        <td style="text-align: center; color: green;">✔</td>
+        <td style="text-align: center; color: green;">✔</td>
+        <td style="text-align: center; color: green;">✔</td>
+        <td style="text-align: center; color: green;">✔</td>
+        <td style="text-align: center; color: green;">✔</td>
+    </tr>
+    <tr>
         <td style="padding-left: 0.5em;"><strong>Rows and Column Properties</strong></td>
         <td></td>
         <td></td>
@@ -1184,7 +1221,7 @@
         <td style="padding-left: 1em;">Row Height/Column Width</td>
         <td style="text-align: center; color: green;">✔</td>
         <td style="text-align: center; color: green;">✔</td>
-        <td style="text-align: center; color: red;">✖</td>
+        <td style="text-align: center; color: green;">✔</td>
         <td style="text-align: center;">N/A</td>
         <td style="text-align: center; color: green;">✔</td>
         <td style="text-align: center; color: green;">✔</td>
@@ -1256,7 +1293,7 @@
         <td style="padding-left: 1em;">Number Format Mask</td>
         <td style="text-align: center; color: green;">✔</td>
         <td style="text-align: center; color: green;">✔</td>
-        <td style="text-align: center; color: green;">✔</td>
+        <td style="text-align: center; color: orange;">●</td>
         <td style="text-align: center;">N/A</td>
         <td style="text-align: center; color: green;">✔</td>
         <td style="text-align: center; color: green;">✔</td>
@@ -1472,10 +1509,10 @@
         <td style="padding-left: 0.5em;"><strong>Merged Cells</strong></td>
         <td style="text-align: center; color: green;">✔</td>
         <td style="text-align: center; color: green;">✔</td>
-        <td style="text-align: center; color: red;">✖</td>
+        <td style="text-align: center; color: green;">✔</td>
         <td style="text-align: center;">N/A</td>
         <td style="text-align: center; color: green;">✔</td>
-        <td style="text-align: center; color: red;">✖</td>
+        <td style="text-align: center; color: green;">✔</td>
     </tr>
     <tr>
         <td style="padding-left: 0.5em;"><a href="#setGetComment"><strong>Cell Comments</strong></a></td>
@@ -1498,10 +1535,10 @@
     <tr>
         <td style="padding-left: 1em;">Alignment</td>
         <td style="text-align: center; color: red;">✖</td>
-        <td style="text-align: center; color: red;">✖</td>
+        <td style="text-align: center; color: green;">✔</td>
         <td style="text-align: center; color: red;">✖</td>
         <td style="text-align: center;">N/A</td>
-        <td style="text-align: center; color: red;">✖</td>
+        <td style="text-align: center; color: green;">✔</td>
         <td style="text-align: center;">N/A</td>
     </tr>
     <tr>
@@ -1606,7 +1643,7 @@
     <tr>
         <td style="padding-left: 0.5em;"><a href="#setGetMacro"><strong>Macros</strong></a></td>
         <td style="text-align: center; color: red;">✖</td>
-        <td style="text-align: center; color: green;">✔</td>
+        <td style="text-align: center; color: orange;">● <a href="#footnote5"><sup>5</sup</td>
         <td style="text-align: center; color: red;">✖</td>
         <td style="text-align: center;">N/A</td>
         <td style="text-align: center; color: red;">✖</td>
@@ -1615,7 +1652,7 @@
     <tr>
         <td style="padding-left: 0.5em;"><strong>Form Controls</strong></td>
         <td style="text-align: center; color: red;">✖</td>
-        <td style="text-align: center; color: red;">✖</td>
+        <td style="text-align: center; color: orange;">● <a href="#footnote4"><sup>4</sup</td>
         <td style="text-align: center; color: red;">✖</td>
         <td style="text-align: center;">N/A</td>
         <td style="text-align: center; color: red;">✖</td>
@@ -1803,8 +1840,8 @@
     </tr>
     <tr>
         <td id="setGetMacro"><strong>Macros</strong></td>
-        <td>$spreadsheet->getMacrosCode();</td>
-        <td>$spreadsheet->setMacrosCode();</td>
+        <td>$spreadsheet->getMacrosCode();<a href="#footnote5"><sup>5</sup></td>
+        <td>$spreadsheet->setMacrosCode();<a href="#footnote5"><sup>5</sup></td>
     </tr>
     <tr>
         <td id="setGetSecurity"><strong>Security</strong></td>

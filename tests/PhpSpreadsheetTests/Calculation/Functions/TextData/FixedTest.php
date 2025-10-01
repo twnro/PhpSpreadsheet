@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace PhpOffice\PhpSpreadsheetTests\Calculation\Functions\TextData;
 
 use PhpOffice\PhpSpreadsheet\Calculation\Calculation;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class FixedTest extends AllSetupTeardown
 {
-    /**
-     * @dataProvider providerFIXED
-     */
+    #[DataProvider('providerFIXED')]
     public function testFIXED(mixed $expectedResult, mixed $number = 'omitted', mixed $decimals = 'omitted', mixed $noCommas = 'omitted'): void
     {
         $this->mightHaveException($expectedResult);
@@ -39,9 +38,8 @@ class FixedTest extends AllSetupTeardown
         return require 'tests/data/Calculation/TextData/FIXED.php';
     }
 
-    /**
-     * @dataProvider providerFixedArray
-     */
+    /** @param mixed[] $expectedResult */
+    #[DataProvider('providerFixedArray')]
     public function testFixedArray(array $expectedResult, string $argument1, string $argument2): void
     {
         $calculation = Calculation::getInstance();

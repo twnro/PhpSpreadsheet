@@ -13,6 +13,7 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\CellIterator;
 use PhpOffice\PhpSpreadsheet\Worksheet\Table;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class WorksheetTest extends TestCase
@@ -34,9 +35,7 @@ class WorksheetTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider setTitleInvalidProvider
-     */
+    #[DataProvider('setTitleInvalidProvider')]
     public function testSetTitleInvalid(string $title, string $expectMessage): void
     {
         // First, test setting title with validation disabled -- should be successful
@@ -91,9 +90,7 @@ class WorksheetTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider setCodeNameInvalidProvider
-     */
+    #[DataProvider('setCodeNameInvalidProvider')]
     public function testSetCodeNameInvalid(string $codeName, string $expectMessage): void
     {
         // First, test setting code name with validation disabled -- should be successful
@@ -151,9 +148,7 @@ class WorksheetTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider extractSheetTitleProvider
-     */
+    #[DataProvider('extractSheetTitleProvider')]
     public function testExtractSheetTitle(string $range, string $expectTitle, string $expectCell, string $expectCell2): void
     {
         // only cell reference
@@ -252,12 +247,35 @@ class WorksheetTest extends TestCase
                 ],
                 'A',
             ],
+            'Data includes nulls' => [
+                [
+                    ['A1', 'B1', 'C1', 'D1', 'E1'],
+                    [null, 'B2', 'C2', 'D2', 'E2'],
+                    ['A3', null, 'C3', 'D3', 'E3'],
+                    ['A4', 'B4', null, 'D4', 'E4'],
+                    ['A5', 'B5', 'C5', null, 'E5'],
+                    ['A6', 'B6', 'C6', 'D6', null],
+                ],
+                'B',
+                2,
+                [
+                    ['A1', 'D1', 'E1'],
+                    [null, 'D2', 'E2'],
+                    ['A3', 'D3', 'E3'],
+                    ['A4', 'D4', 'E4'],
+                    ['A5', null, 'E5'],
+                    ['A6', 'D6', null],
+                ],
+                'C',
+            ],
         ];
     }
 
     /**
-     * @dataProvider removeColumnProvider
+     * @param mixed[] $initialData
+     * @param mixed[] $expectedData
      */
+    #[DataProvider('removeColumnProvider')]
     public function testRemoveColumn(
         array $initialData,
         string $columnToBeRemoved,
@@ -384,12 +402,33 @@ class WorksheetTest extends TestCase
                 ],
                 4,
             ],
+            'Data includes nulls' => [
+                [
+                    ['A1', 'B1', 'C1', 'D1', 'E1'],
+                    [null, 'B2', 'C2', 'D2', 'E2'],
+                    ['A3', null, 'C3', 'D3', 'E3'],
+                    ['A4', 'B4', null, 'D4', 'E4'],
+                    ['A5', 'B5', 'C5', null, 'E5'],
+                    ['A6', 'B6', 'C6', 'D6', null],
+                ],
+                1,
+                2,
+                [
+                    ['A3', null, 'C3', 'D3', 'E3'],
+                    ['A4', 'B4', null, 'D4', 'E4'],
+                    ['A5', 'B5', 'C5', null, 'E5'],
+                    ['A6', 'B6', 'C6', 'D6', null],
+                ],
+                4,
+            ],
         ];
     }
 
     /**
-     * @dataProvider removeRowsProvider
+     * @param mixed[] $initialData
+     * @param mixed[] $expectedData
      */
+    #[DataProvider('removeRowsProvider')]
     public function testRemoveRows(
         array $initialData,
         int $rowToRemove,
@@ -445,9 +484,7 @@ class WorksheetTest extends TestCase
         return $sheet;
     }
 
-    /**
-     * @dataProvider emptyRowProvider
-     */
+    #[DataProvider('emptyRowProvider')]
     public function testIsEmptyRow(int $rowId, bool $expectedEmpty): void
     {
         $spreadsheet = new Spreadsheet();
@@ -474,9 +511,7 @@ class WorksheetTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider emptyColumnProvider
-     */
+    #[DataProvider('emptyColumnProvider')]
     public function testIsEmptyColumn(string $columnId, bool $expectedEmpty): void
     {
         $spreadsheet = new Spreadsheet();
@@ -527,8 +562,11 @@ class WorksheetTest extends TestCase
     }
 
     /**
-     * @dataProvider toArrayHiddenRowsProvider
+     * @param mixed[] $initialData
+     * @param int[] $hiddenRows
+     * @param mixed[] $expectedData
      */
+    #[DataProvider('toArrayHiddenRowsProvider')]
     public function testHiddenRows(
         array $initialData,
         array $hiddenRows,
@@ -539,7 +577,9 @@ class WorksheetTest extends TestCase
         $worksheet->fromArray($initialData);
 
         foreach ($hiddenRows as $hiddenRow) {
-            $worksheet->getRowDimension($hiddenRow)->setVisible(false);
+            $worksheet
+                ->getRowDimension($hiddenRow)
+                ->setVisible(false);
         }
 
         self::assertSame($expectedData, $worksheet->toArray(null, false, false, true, true));
@@ -562,8 +602,11 @@ class WorksheetTest extends TestCase
     }
 
     /**
-     * @dataProvider toArrayHiddenColumnsProvider
+     * @param mixed[] $initialData
+     * @param string[] $hiddenColumns
+     * @param mixed[] $expectedData
      */
+    #[DataProvider('toArrayHiddenColumnsProvider')]
     public function testHiddenColumns(
         array $initialData,
         array $hiddenColumns,
@@ -574,7 +617,9 @@ class WorksheetTest extends TestCase
         $worksheet->fromArray($initialData);
 
         foreach ($hiddenColumns as $hiddenColumn) {
-            $worksheet->getColumnDimension($hiddenColumn)->setVisible(false);
+            $worksheet
+                ->getColumnDimension($hiddenColumn)
+                ->setVisible(false);
         }
 
         self::assertSame($expectedData, $worksheet->toArray(null, false, false, true, true));
@@ -596,9 +641,8 @@ class WorksheetTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider rangeToArrayProvider
-     */
+    /** @param mixed[] $expected */
+    #[DataProvider('rangeToArrayProvider')]
     public function testRangeToArrayWithCellRangeObject(array $expected, string $fromCell, string $toCell): void
     {
         $initialData = array_chunk(range('A', 'Y'), 5);

@@ -6,12 +6,11 @@ namespace PhpOffice\PhpSpreadsheetTests\Calculation\Functions\TextData;
 
 use PhpOffice\PhpSpreadsheet\Calculation\Calculation;
 use PhpOffice\PhpSpreadsheet\Settings;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class ProperTest extends AllSetupTeardown
 {
-    /**
-     * @dataProvider providerPROPER
-     */
+    #[DataProvider('providerPROPER')]
     public function testPROPER(mixed $expectedResult, mixed $str = 'omitted'): void
     {
         $this->mightHaveException($expectedResult);
@@ -31,9 +30,7 @@ class ProperTest extends AllSetupTeardown
         return require 'tests/data/Calculation/TextData/PROPER.php';
     }
 
-    /**
-     * @dataProvider providerLocaleLOWER
-     */
+    #[DataProvider('providerLocaleLOWER')]
     public function testLowerWithLocaleBoolean(string $expectedResult, string $locale, mixed $value): void
     {
         $newLocale = Settings::setLocale($locale);
@@ -61,9 +58,8 @@ class ProperTest extends AllSetupTeardown
         ];
     }
 
-    /**
-     * @dataProvider providerProperArray
-     */
+    /** @param mixed[] $expectedResult */
+    #[DataProvider('providerProperArray')]
     public function testProperArray(array $expectedResult, string $array): void
     {
         $calculation = Calculation::getInstance();

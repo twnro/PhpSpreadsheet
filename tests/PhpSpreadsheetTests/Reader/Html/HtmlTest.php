@@ -64,9 +64,7 @@ class HtmlTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider providerCanReadVerySmallFile
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerCanReadVerySmallFile')]
     public function testCanReadVerySmallFile(bool $expected, string $content): void
     {
         $filename = HtmlHelper::createHtml($content);
@@ -155,15 +153,12 @@ class HtmlTest extends TestCase
         $firstSheet = $spreadsheet->getSheet(0);
 
         $dimension = $firstSheet->getColumnDimension('A');
-        self::assertNotNull($dimension);
         self::assertEquals(50, $dimension->getWidth());
 
         $dimension = $firstSheet->getColumnDimension('B');
-        self::assertNotNull($dimension);
         self::assertEquals(100, $dimension->getWidth('px'));
 
         $dimension = $firstSheet->getColumnDimension('C');
-        self::assertNotNull($dimension);
         self::assertEquals(50, $dimension->getWidth('px'));
         $spreadsheet->disconnectWorksheets();
     }
@@ -186,15 +181,12 @@ class HtmlTest extends TestCase
         $firstSheet = $spreadsheet->getSheet(0);
 
         $dimension = $firstSheet->getRowDimension(1);
-        self::assertNotNull($dimension);
         self::assertEquals(50, $dimension->getRowHeight());
 
         $dimension = $firstSheet->getRowDimension(2);
-        self::assertNotNull($dimension);
         self::assertEquals(100, $dimension->getRowHeight('px'));
 
         $dimension = $firstSheet->getRowDimension(3);
-        self::assertNotNull($dimension);
         self::assertEquals(50, $dimension->getRowHeight('px'));
         $spreadsheet->disconnectWorksheets();
     }
@@ -395,6 +387,7 @@ class HtmlTest extends TestCase
                         <td data-type="s">=B1</td>
                         <td data-type="d">2022-02-21 10:20:30</td>
                         <td data-type="null">null</td>
+                        <td data-type="b">0</td>
                         <td data-type="invalid-datatype">text with invalid datatype</td>
                     </tr>
                 </table>';
@@ -403,9 +396,10 @@ class HtmlTest extends TestCase
         $spreadsheet = $reader->loadFromString($html);
         $firstSheet = $spreadsheet->getSheet(0);
 
-        // check boolean data type
+        // check boolean data type and true
         self::assertEquals(DataType::TYPE_BOOL, $firstSheet->getCell('A1')->getDataType());
         self::assertIsBool($firstSheet->getCell('A1')->getValue());
+        self::assertTrue($firstSheet->getCell('A1')->getValue());
 
         // check string data type
         self::assertEquals(DataType::TYPE_STRING, $firstSheet->getCell('B1')->getDataType());
@@ -421,5 +415,10 @@ class HtmlTest extends TestCase
 
         //null
         self::assertEquals($firstSheet->getCell('E1')->getValue(), null);
+
+        // check boolean data type and true
+        self::assertEquals(DataType::TYPE_BOOL, $firstSheet->getCell('F1')->getDataType());
+        self::assertIsBool($firstSheet->getCell('F1')->getValue());
+        self::assertFalse($firstSheet->getCell('F1')->getValue());
     }
 }

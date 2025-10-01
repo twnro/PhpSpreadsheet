@@ -169,20 +169,37 @@ $writer->save("05featuredemo.xlsx");
 **Note** Formulas will still be calculated in any column set to be autosized
 even if pre-calculated is set to false
 
+**Note** Prior to release 3.7.0, the use of this feature will cause Excel to be used in a mode where opening a sheet saved in this manner *might* not automatically recalculate a cell's formula when a cell used it the formula changes. Furthermore, that behavior might be applied to all spreadsheets open at the time. To avoid this behavior, add the following statement after `setPreCalculateFormulas` above:
+```php
+$writer->setForceFullCalc(false);
+```
+Starting with Release 4.0.0, the property's default is changed to `false` and that statement is no longer be required. The property can be set to `null` if the old behavior is needed.
+
 #### Office 2003 compatibility pack
 
 Because of a bug in the Office2003 compatibility pack, there can be some
 small issues when opening Xlsx spreadsheets (mostly related to formula
 calculation). You can enable Office2003 compatibility with the following
 code:
-
+```php
     $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
     $writer->setOffice2003Compatibility(true);
     $writer->save("05featuredemo.xlsx");
+```
 
 **Office2003 compatibility option should only be used when needed** because 
 it disables several Office2007 file format options, resulting in a
 lower-featured Office2007 spreadsheet.
+
+#### Maximum Column Width
+
+In the Xlsx User Interface, the user cannot set a column width > 255.
+Nevertheless, it will honor a higher value if supplied in the Xml.
+PhpSpreadsheet will, by default, allow values > 255 to be written.
+However, Excel's behavior, restricting the value to 255, can be emulated:
+```php
+    $writer->setRestrictMaxColumnWidth(true);
+```
 
 ### Form Control Fields
 
@@ -298,7 +315,6 @@ versions of Microsoft Excel.
 **Excel 2003 XML limitations** Please note that Excel 2003 XML format
 has some limits regarding to styling cells and handling large
 spreadsheets via PHP.
-Also, only files using charset UTF-8 are supported.
 
 ### \PhpOffice\PhpSpreadsheet\Reader\Xml
 
@@ -577,12 +593,10 @@ $reader->loadIntoExisting("05featuredemo.csv", $spreadsheet);
 
 Line endings for Unix (`\n`) and Windows (`\r\n`) are supported.
 
-Mac line endings (`\r`) are supported as long as PHP itself
-supports them, which it does through release 8.0.
-Support for Mac line endings is deprecated for 8.1,
+Support for Mac line endings  (`\r`) is deprecated since PHP 8.1,
 and is scheduled to remain deprecated for all later PHP8 releases;
-PhpSpreadsheet will continue to support them for 8.*.
-Support is scheduled to be dropped with release 9;
+PhpSpreadsheet will continue to support them for PHP 8.*.
+Support is scheduled to be dropped with PHP 9;
 PhpSpreadsheet will then no longer handle CSV files
 with Mac line endings correctly.
 
@@ -591,6 +605,9 @@ You can suppress testing for Mac line endings as follows:
 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Csv();
 $reader->setTestAutoDetect(false);
 ```
+Starting with Release 4.0.0, the property defaults to `false`,
+so the statement above is no longer needed. The old behavior
+can be enabled by setting the property to `true`.
 
 ### \PhpOffice\PhpSpreadsheet\Writer\Csv
 
@@ -681,6 +698,18 @@ $writer->setOutputEncoding('SJIS-WIN');
 $writer->save("05featuredemo.csv");
 ```
 
+#### Writing CSV files with varying numbers of columns
+
+A CSV file can have a different number of columns in each row. This
+differs from the default behavior when saving as a .csv in Excel, but
+can be enabled in PhpSpreadsheet by using the following code:
+
+``` php
+$writer = new \PhpOffice\PhpSpreadsheet\Writer\Csv($spreadsheet);
+$writer->setVariableColumns(true);
+$writer->save("05featuredemo.csv");
+```
+
 #### Decimal and thousands separators
 
 If the worksheet you are exporting contains numbers with decimal or
@@ -718,7 +747,7 @@ extension.
 
 **HTML limitations** Please note that HTML file format has some limits
 regarding to styling cells, number formatting, ...
-Also, only files using charset UTF-8 are supported.
+Declared charsets compatible with ASCII in range 00-7F, and UTF-8/16 with BOM are supported.
 
 ### \PhpOffice\PhpSpreadsheet\Reader\Html
 
@@ -1070,7 +1099,7 @@ $secondHtmlString = '<table>
 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Html();
 $spreadsheet = $reader->loadFromString($firstHtmlString);
 $reader->setSheetIndex(1);
-$spreadhseet = $reader->loadFromString($secondHtmlString, $spreadsheet);
+$spreadsheet = $reader->loadFromString($secondHtmlString, $spreadsheet);
 
 $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xls');
 $writer->save('write.xls');
@@ -1096,26 +1125,31 @@ $reader->load("spreadsheetWithCharts.xlsx", $reader::LOAD_WITH_CHARTS);
 If you wish to use the IOFactory `load()` method rather than instantiating a specific Reader, then you can still pass these flags.
 
 ```php
-$spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load("spreadsheetWithCharts.xlsx", \PhpOffice\PhpSpreadsheet\Reader\IReader::LOAD_WITH_CHARTS);
+$spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load(
+    "spreadsheetWithCharts.xlsx",
+    \PhpOffice\PhpSpreadsheet\Reader\IReader::LOAD_WITH_CHARTS
+);
 ```
 
 Flags that are available that can be passed to the Reader in this way include:
 
  - $reader::LOAD_WITH_CHARTS
  - $reader::READ_DATA_ONLY
- - $reader::IGNORE_EMPTY_CELLS 
- - $reader::SKIP_EMPTY_CELLS (synonym for IGNORE_EMPTY_CELLS)
+ - $reader::IGNORE_EMPTY_CELLS
+ - $reader::IGNORE_ROWS_WITH_NO_CELLS
+ - $reader::ALLOW_EXTERNAL_IMAGES (starting with release 4.5)
+ - $reader::DONT_ALLOW_EXTERNAL_IMAGES (starting with release 4.5)
 
-| Readers  | LOAD_WITH_CHARTS | READ_DATA_ONLY | IGNORE_EMPTY_CELLS |
-|----------|------------------|----------------|--------------------|
-| Xlsx     | YES              | YES            | YES                |
-| Xls      | NO               | YES            | YES                |
-| Xml      | NO               | NO             | NO                 |
-| Ods      | NO               | YES            | NO                 |
-| Gnumeric | NO               | YES            | NO                 |
-| Html     | N/A              | N/A            | N/A                |
-| Slk      | N/A              | NO             | NO                 |
-| Csv      | N/A              | NO             | NO                 |
+| Readers  | LOAD<br>CHARTS | DATA<br>ONLY | IGNORE<br>EMPTY | IGNORE<br>ROWS | EXTERNAL<br>IMAGES |
+|----------|--------|------|--------|--------|--------|
+| Xlsx     | YES | YES | YES | YES | YES |
+| Xls      | NO  | YES | YES | NO  | NO  |
+| Xml      | NO  | NO  | NO  | NO  | NO  |
+| Ods      | NO  | YES | NO  | NO  | NO  |
+| Gnumeric | NO  | YES | NO  | NO  | NO  |
+| Html     | N/A | N/A | N/A | N/A | YES |
+| Slk      | N/A | NO  | NO  | NO  | N/A |
+| Csv      | N/A | NO  | NO  | NO  | N/A |
 
 Likewise, when saving a file using a Writer, loaded charts will not be saved unless you explicitly tell the Writer to include them:
 
@@ -1151,6 +1185,44 @@ One benefit of flags is that you can pass several flags in a single method call.
 Two or more flags can be passed together using PHP's `|` operator.
 
 ```php
-$reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReaderForFile("myExampleFile.xlsx");
-$reader->load("spreadsheetWithCharts.xlsx", $reader::READ_DATA_ONLY | $reader::SKIP_EMPTY_CELLS);
+$reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReaderForFile('myExampleFile.xlsx');
+$reader->load(
+    'spreadsheetWithCharts.xlsx',
+    $reader::READ_DATA_ONLY | $reader::IGNORE_EMPTY_CELLS
+);
 ```
+
+## Writing Data as a Plaintext Grid
+
+Although not really a spreadsheet format, it can be useful to write data in grid format to a plaintext file.
+Code like the following can be used:
+```php
+        $array = $sheet->toArray(null, true, true, true);
+        $textGrid = new \PhpOffice\PhpSpreadsheet\Shared\TextGrid(
+            $array,
+            true, // true for cli, false for html
+            // Starting with release 4.2,
+            // the output format can be tweaked by uncommenting
+            // any of the following 3 optional parameters.
+            // rowDividers: true,
+            // rowHeaders: false,
+            // columnHeaders: false,
+        );
+        $result = $textGrid->render();
+```
+You can then echo `$result` to a terminal, or write it to a file with `file_put_contents`. The result will resemble:
+```
+    +-----+------------------+---+----------+
+    | A   | B                | C | D        |
++---+-----+------------------+---+----------+
+| 1 | 6   | 1900-01-06 00:00 |   | 0.572917 |
+| 2 | 6   | TRUE             |   | 1<>2     |
+| 3 | xyz | xyz              |   |          |
++---+-----+------------------+---+----------+
+```
+Please note that this may produce sub-optimal results for situations such as:
+
+- use of accents as combining characters rather than using pre-composed characters (may be handled by extending the class to override the `getString` or `strlen` methods)
+- Fullwidth characters
+- right-to-left characters (better display in a browser than a terminal on a non-RTL system)
+- multi-line strings
