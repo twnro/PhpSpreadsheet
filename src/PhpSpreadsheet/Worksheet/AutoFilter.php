@@ -216,7 +216,7 @@ class AutoFilter implements Stringable
     }
 
     /**
-     * Get a specified AutoFilter Column by it's offset.
+     * Get a specified AutoFilter Column by its offset.
      *
      * @param int $columnOffset Column offset within range (starting from 0)
      */
@@ -1048,7 +1048,10 @@ class AutoFilter implements Stringable
             //    If the RowDimension object has not been allocated yet and the row should be visible,
             //    then we can avoid any operation since the rows are visible by default (saves a lot of memory)
             if ($result === false || $this->workSheet->rowDimensionExists((int) $row)) {
-                $this->workSheet->getRowDimension((int) $row)->setVisible($result);
+                $this->workSheet
+                    ->getRowDimension((int) $row)
+                    ->setVisible($result)
+                    ->setVisibleAfterFilter($result);
             }
         }
         $this->evaluated = true;
@@ -1099,7 +1102,7 @@ class AutoFilter implements Stringable
                 foreach ($value as $k => $v) {
                     $this->{$key}[$k] = clone $v; //* @phpstan-ignore-line
                     // attach the new cloned Column to this new cloned Autofilter object
-                    $this->{$key}[$k]->setParent($this);
+                    $this->{$key}[$k]->setParent($this); //* @phpstan-ignore-line
                 }
             } else {
                 $this->{$key} = $value;
