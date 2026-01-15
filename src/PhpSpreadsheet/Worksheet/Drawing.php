@@ -13,7 +13,9 @@ class Drawing extends BaseDrawing
         IMAGETYPE_PNG => IMAGETYPE_PNG,
         IMAGETYPE_BMP => IMAGETYPE_PNG,
     ];
-
+    
+    public $drawUsingMoveAndResizeWithCell;
+    
     /**
      * Path.
      */
